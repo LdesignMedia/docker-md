@@ -1,0 +1,2 @@
+# Only file that should be changed for each project.
+docker-compose.override.yml

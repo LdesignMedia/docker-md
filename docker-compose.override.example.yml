@@ -1,0 +1,4 @@
+volumes:
+    db-volume:
+    moodleapp-data:
+    - "../:/var/www/html/block/test"

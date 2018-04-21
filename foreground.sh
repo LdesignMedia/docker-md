@@ -19,6 +19,7 @@ trap "kill -TERM -$pgrp; exit" EXIT TERM KILL SIGKILL SIGTERM SIGQUIT
 /usr/sbin/cron
 
 
+# Install Moodle from CLI saves some time.
 if [ ! -f "/opt/moodle_installed" ]; then
 
    echo -e "${green}Start install moodle ${reset}"
@@ -44,12 +45,11 @@ commands="--chmod=2777 \
     rm /var/www/html/config.php
 
     echo $commands
-	php /var/www/html/admin/cli/install.php ${commands}
-	
-	chown www-data:www-data /var/www/html/config.php
+    php /var/www/html/admin/cli/install.php ${commands}
+    chown www-data:www-data /var/www/html/config.php
 
-	# Installed.
-   	echo "true" > /opt/moodle_installed
+    # Installed.
+    echo "true" > /opt/moodle_installed
 
 else
  	echo -e "${red}Already Installed${reset}"
