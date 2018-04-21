@@ -8,10 +8,10 @@ Docker testing suite for Moodle.
 * Author: Luuk Verhoeven, [MoodleFreak.com](http://moodlefreak.com)
 * Docker Hub: https://hub.docker.com/r/moodlefreak/docker-md/
 
-## Add to project
+## Add to your plugin folder
 
 ```bash
-git submodule add git@github.com:MoodleFreak/docker-md.git dockermd_$(basename `pwd`)
+git submodule add -b moodle34 git@github.com:MoodleFreak/docker-md.git dockermd_$(basename `pwd`)
 ```
 
 ## Map to your folders
@@ -22,6 +22,11 @@ cp docker-compose.override.example.yml docker-compose.override.yml
 ```
 Edit `docker-compose.override.yml`
 
+## Add to .gitignore global or project
+
+````git
+dockermd_*/
+````
 
 ## Start compose
 
@@ -38,3 +43,19 @@ docker-compose up --force-recreate
 cd dockermd_*
 git pull
 ```
+
+## Features
+- PHP7.0.
+- Moodle cron is running every minute. 
+- plugin-testing tools.
+- NPM install.
+- Moodle installed on the image itself makes it lot faster.
+- Auto install Moodle to the db
+- `directlogin.php` in the www root, no user needed to login.
+- Debug messages appears in your console.
+
+## TODO 
+
+- Make more branches, currently only `moodle34`
+- Install more recent version of PHP 7.1 or 7.2
+- Catch outgoing e-mail, currently there is no outgoing mail possible. 
