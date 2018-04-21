@@ -20,9 +20,9 @@ trap "kill -TERM -$pgrp; exit" EXIT TERM KILL SIGKILL SIGTERM SIGQUIT
 # Install Moodle from CLI saves some time.
 if [ ! -f "/opt/moodle_installed" ]; then
 
-   echo -e "${green}Start install moodle ${reset}"
+   echo -e "${green}Start install moodle v34.2 ${reset}"
    echo $DB_ENV_MYSQL_DATABASE
-   sleep 10
+   sleep 15
 commands="--chmod=2777 \
         --dataroot=/var/moodledata \
         --lang=en \
