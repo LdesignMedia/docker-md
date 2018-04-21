@@ -132,6 +132,8 @@ RUN chmod +x /etc/apache2/foreground.sh
 
 RUN echo "AcceptPathInfo On" >> /etc/apache2/apache2.ini
 
+RUN npm install -g grunt
+
 CMD ["/etc/apache2/foreground.sh"]
 
 # Internal notes for the developer.
