@@ -7,7 +7,6 @@ yellow=`tput setaf 3`
 magenta=`tput setaf 5`
 reset=`tput sgr0`
 
-
 echo "placeholder" > /var/moodledata/placeholder
 chown -R www-data:www-data /var/moodledata
 chmod 777 /var/moodledata
@@ -18,13 +17,12 @@ trap "kill -TERM -$pgrp; exit" EXIT TERM KILL SIGKILL SIGTERM SIGQUIT
 #start up cron
 /usr/sbin/cron
 
-
 # Install Moodle from CLI saves some time.
 if [ ! -f "/opt/moodle_installed" ]; then
 
    echo -e "${green}Start install moodle ${reset}"
-   echo $DB_ENV_MYSQL_DATABASE	 
-   sleep 15
+   echo $DB_ENV_MYSQL_DATABASE
+   sleep 5
 commands="--chmod=2777 \
         --dataroot=/var/moodledata \
         --lang=en \
@@ -42,19 +40,18 @@ commands="--chmod=2777 \
         --adminpass=$MOODLE_PASSWORD \
         --non-interactive"
 
-    rm /var/www/html/config.php
-
     echo $commands
     php /var/www/html/admin/cli/install.php ${commands}
     chown www-data:www-data /var/www/html/config.php
 
     # Installed.
     echo "true" > /opt/moodle_installed
-
 else
  	echo -e "${red}Already Installed${reset}"
 fi
 
+echo -e "${green}Login: $MOODLE_EMAIL ${reset}"
+echo -e "${green}Password: $MOODLE_PASSWORD ${reset}"
 
 source /etc/apache2/envvars
 tail -F /var/log/apache2/* &

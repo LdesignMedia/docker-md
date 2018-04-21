@@ -5,8 +5,7 @@ FROM ubuntu:16.04
 MAINTAINER Luuk Verhoeven luuk@moodlefreak.com
 
 VOLUME ["/var/moodledata"]
-EXPOSE 80 443 3306 6379
-COPY moodle-config.php /var/www/html/config.php
+EXPOSE 80 443 3306
 
 ARG moodle_version=34
 ENV MOODLE_VERSION=$moodle_version
@@ -36,9 +35,7 @@ RUN	cd /tmp && \
 	wget -O moodle.zip https://download.moodle.org/download.php/direct/stable$MOODLE_VERSION/moodle-latest-$MOODLE_VERSION.zip && \
 	unzip moodle.zip && \
 	mv /tmp/moodle/* /var/www/html/ && \
-	rm /var/www/html/index.html && \
-	chown -R www-data:www-data /var/www/html
-	
+	rm /var/www/html/index.html
 
 # cron
 COPY moodlecron /etc/cron.d/moodlecron
@@ -72,16 +69,16 @@ RUN export NVM_DIR="$HOME/.nvm" && \
 	 nvm install 8.9 && \
 	 nvm use 8.9
 
-# Moodle testing suite. 
+# Moodle testing suite.
 RUN export NVM_DIR="$HOME/.nvm" && \
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
 	cd /var/www/html/ && \
 	composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^2 && \
 	export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
-# This takes a while......... 
-#RUN cd /var/www/html/ && \ 
-#	ln -s /usr/bin/nodejs /usr/bin/node && \  
+# This takes a while.........
+#RUN cd /var/www/html/ && \
+#	ln -s /usr/bin/nodejs /usr/bin/node && \
 #	npm set progress=false && \
 #	npm install --save yarn-install && \
 #    npm install --no-cache --dev --loglevel verbose
@@ -95,9 +92,24 @@ RUN cd /var/www/html/ && composer install
 
 RUN export NVM_DIR="$HOME/.nvm" && \
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-	cd /var/www/html/ && \ 
-	ln -s /usr/bin/nodejs /usr/bin/node && \  
+	cd /var/www/html/ && \
+	ln -s /usr/bin/nodejs /usr/bin/node && \
 	yarn install --prefer-offline
+
+# Install some default plugins that should be available.
+# ONLY 34 needed
+RUN wget -O /tmp/tool_dataprivacy_moodle.zip https://moodle.org/plugins/download.php/16426/tool_dataprivacy_moodle33_2017051500.zip && \
+    cd /tmp  && \
+    unzip tool_dataprivacy_moodle.zip && \
+    mkdir /var/www/html/admin/tool/dataprivacy && \
+    mv /tmp/dataprivacy/* /var/www/html/admin/tool/dataprivacy
+
+# Make navigation better.
+RUN wget -O /tmp/local_commander.zip https://moodle.org/plugins/download.php/16351/local_commander_moodle34_2018032702.zip && \
+    cd /tmp  && \
+    unzip local_commander.zip && \
+    mkdir /var/www/html/local/commander && \
+    mv /tmp/commander/* /var/www/html/local/commander
 
 # Cleanup, this is ran to reduce the resulting size of the image.
 RUN apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/dpkg/* /var/lib/cache/* /var/lib/log/*
@@ -106,15 +118,19 @@ RUN apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/apt/list
 COPY plugin-test.sh /var/www/html/plugin-test.sh
 RUN chmod +x /var/www/html/plugin-test.sh
 
-COPY directlogin.php /var/www/html/directlogin.php 
-RUN chmod +x /var/www/html/directlogin.php 
+COPY directlogin.php /var/www/html/directlogin.php
+RUN chmod +x /var/www/html/directlogin.php
 
 ADD ./foreground.sh /etc/apache2/foreground.sh
 RUN chmod +x /etc/apache2/foreground.sh
+
+# Make all www owned by www
+RUN chown -R www-data:www-data /var/www/html
+
 CMD ["/etc/apache2/foreground.sh"]
 
 # Internal notes for the developer.
 # Testing after build 
-# docker build -t moodle .
-# docker run -d -P --rm --name moodle -e MOODLE_URL=http://localhost:8080 -p 8080:80 moodle:latest
+# docker build -t moodlefreak/docker-md:moodle34 .
+# docker run -d -P --rm --name moodle -e MOODLE_URL=http://localhost:8080 -p 8080:80 moodle-md:moodle34
 # compose the app with docker-compose up --force-recreate
