@@ -18,3 +18,10 @@ docker-compose up
 OR
 docker-compose up --force-recreate
 ```
+
+## Update project to latest version
+
+```bash
+cd dockermd_*
+git pull
+```
