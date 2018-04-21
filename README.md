@@ -2,6 +2,12 @@
 
 Docker 34 Testing suite for Moodle. 
 
+## Author
+
+![MoodleFreak.com](http://moodlefreak.com/logo_small.png)
+* Author: Luuk Verhoeven, [MoodleFreak.com](http://moodlefreak.com)
+* Docker Hub: https://hub.docker.com/r/moodlefreak/docker-md/
+
 ## Add to porject
 
 ```bash
