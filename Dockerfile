@@ -24,18 +24,19 @@ ENV MOODLE_URL http://127.0.0.1
 
 # MYSQL DB
 RUN apt-get update && \
-	apt-get -y install mysql-client pwgen python-setuptools curl git unzip apache2 php \
-		php-gd libapache2-mod-php postfix wget supervisor php-pgsql curl libcurl3 \
-		libcurl3-dev php-curl php-xmlrpc php-intl php-mysql git-core php-xml php-mbstring php-zip php-soap cron php7.0-ldap python-pip
+    apt-get -y install vim mysql-client pwgen python-setuptools curl git unzip apache2 php \
+        php-gd libapache2-mod-php postfix wget supervisor php-pgsql curl libcurl3 \
+        libcurl3-dev php-curl php-xmlrpc php-intl php-mysql git-core php-xml php-mbstring \
+        php-zip php-soap cron php7.0-ldap python-pip
 
 # NODE
 RUN pip install supervisor-stdout
 
 RUN	cd /tmp && \
-	wget -O moodle.zip https://download.moodle.org/download.php/direct/stable$MOODLE_VERSION/moodle-latest-$MOODLE_VERSION.zip && \
-	unzip moodle.zip && \
-	mv /tmp/moodle/* /var/www/html/ && \
-	rm /var/www/html/index.html
+    wget -O moodle.zip https://download.moodle.org/download.php/direct/stable$MOODLE_VERSION/moodle-latest-$MOODLE_VERSION.zip && \
+    unzip moodle.zip && \
+    mv /tmp/moodle/* /var/www/html/ && \
+    rm /var/www/html/index.html
 
 # cron
 COPY moodlecron /etc/cron.d/moodlecron
@@ -54,6 +55,7 @@ RUN sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/ph
     sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.0/apache2/php.ini && \
     sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.0/apache2/php.ini && \
     sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/apache2/php.ini && \
+    sed -i "s/AllowOverride None*/AllowOverride All/" /etc/apache2/apache2.conf && \
     find /etc/php/7.0/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
 
 # install composer
@@ -85,16 +87,16 @@ RUN export NVM_DIR="$HOME/.nvm" && \
 
 # Install yarn.
 RUN export NVM_DIR="$HOME/.nvm" && \
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-	npm install -g yarn async
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
+    npm install -g yarn async
 
 RUN cd /var/www/html/ && composer install
 
 RUN export NVM_DIR="$HOME/.nvm" && \
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-	cd /var/www/html/ && \
-	ln -s /usr/bin/nodejs /usr/bin/node && \
-	yarn install --prefer-offline
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
+    cd /var/www/html/ && \
+    ln -s /usr/bin/nodejs /usr/bin/node && \
+    yarn install --prefer-offline
 
 # Install some default plugins that should be available.
 # ONLY 34 needed
@@ -119,13 +121,16 @@ COPY plugin-test.sh /var/www/html/plugin-test.sh
 RUN chmod +x /var/www/html/plugin-test.sh
 
 COPY directlogin.php /var/www/html/directlogin.php
-RUN chmod +x /var/www/html/directlogin.php
+COPY privacy_export.php /var/www/html/privacy_export.php
+COPY privacy_test.php /var/www/html/privacy_test.php
+
+# Make all www owned by www
+RUN chown -R www-data:www-data /var/www/html
 
 ADD ./foreground.sh /etc/apache2/foreground.sh
 RUN chmod +x /etc/apache2/foreground.sh
 
-# Make all www owned by www
-RUN chown -R www-data:www-data /var/www/html
+RUN echo "AcceptPathInfo On" >> /etc/apache2/apache2.ini
 
 CMD ["/etc/apache2/foreground.sh"]
 
