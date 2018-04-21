@@ -1,4 +1,7 @@
-volumes:
-    db-volume:
-    moodleapp-data:
-    - "../:/var/www/html/block/test"
+version: '3'
+
+services:
+    moodleapp:
+        image: moodlefreak/docker-md:latest
+        volumes:
+        - "./../:/var/www/html/enrol/plugin"

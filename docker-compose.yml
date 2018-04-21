@@ -41,9 +41,6 @@ services:
 volumes: 
     db-volume:
     moodleapp-data:
-    # You can add volumes to docker-compose.override.yml
-    #    - ".:/var/www/html/block/test"
-    #     - "./../moodle-project-mod:/var/www/html/mod/project"
       
 networks:
     backendDB:
