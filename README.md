@@ -1,6 +1,6 @@
 # docker-md
 
-Docker 34 Testing suite for Moodle. 
+Docker testing suite for Moodle. 
 
 ## Author
 
@@ -8,13 +8,20 @@ Docker 34 Testing suite for Moodle.
 * Author: Luuk Verhoeven, [MoodleFreak.com](http://moodlefreak.com)
 * Docker Hub: https://hub.docker.com/r/moodlefreak/docker-md/
 
-## Add to porject
+## Add to project
 
 ```bash
 git submodule add git@github.com:MoodleFreak/docker-md.git dockermd_$(basename `pwd`)
 ```
 
-Next edit the volumes in .yml 
+## Map to your folders
+
+```bash
+cd dockermd_*
+cp docker-compose.override.example.yml docker-compose.override.yml
+```
+Edit `docker-compose.override.yml`
+
 
 ## Start compose
 
