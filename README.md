@@ -58,4 +58,23 @@ git pull
 
 - Make more branches, currently only `moodle34`
 - Install more recent version of PHP 7.1 or 7.2
-- Catch outgoing e-mail, currently there is no outgoing mail possible. 
+- Catch outgoing e-mail, currently there is no outgoing mail possible.
+
+## Docker compose - usage
+
+````bash
+cd dockermd_*
+
+# Start
+docker-compose up
+
+# Start and recreate.
+docker-compose up --force-recreate
+
+# Stop and remove 
+docker-compose stop && echo Y | docker-compose rm
+
+# Bash 
+docker ps
+docker exec -i -t NAME /bin/bash
+```` 

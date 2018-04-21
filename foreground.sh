@@ -22,7 +22,7 @@ if [ ! -f "/opt/moodle_installed" ]; then
 
    echo -e "${green}Start install moodle ${reset}"
    echo $DB_ENV_MYSQL_DATABASE
-   sleep 5
+   sleep 10
 commands="--chmod=2777 \
         --dataroot=/var/moodledata \
         --lang=en \
