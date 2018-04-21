@@ -9,3 +9,12 @@ git submodule add git@github.com:MoodleFreak/docker-md.git dockermd_$(basename `
 ```
 
 Next edit the volumes in .yml 
+
+## Start compose
+
+```bash
+cd dockermd_*
+docker-compose up 
+OR
+docker-compose up --force-recreate
+```
