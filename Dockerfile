@@ -132,7 +132,12 @@ RUN chmod +x /etc/apache2/foreground.sh
 
 RUN echo "AcceptPathInfo On" >> /etc/apache2/apache2.ini
 
-RUN npm install -g grunt
+RUN export NVM_DIR="$HOME/.nvm" && \
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
+    npm install -g grunt
+
+# Fix line endings, if there are problems
+RUN sed -i -e 's/\r$//' /var/www/html/plugin-test.sh
 
 CMD ["/etc/apache2/foreground.sh"]
 
