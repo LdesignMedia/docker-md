@@ -99,13 +99,6 @@ RUN export NVM_DIR="$HOME/.nvm" && \
     yarn install --prefer-offline
 
 # Install some default plugins that should be available.
-# ONLY 34 needed
-RUN wget -O /tmp/tool_dataprivacy_moodle.zip https://moodle.org/plugins/download.php/16426/tool_dataprivacy_moodle33_2017051500.zip && \
-    cd /tmp  && \
-    unzip tool_dataprivacy_moodle.zip && \
-    mkdir /var/www/html/admin/tool/dataprivacy && \
-    mv /tmp/dataprivacy/* /var/www/html/admin/tool/dataprivacy
-
 # Make navigation better.
 RUN wget -O /tmp/local_commander.zip https://moodle.org/plugins/download.php/16351/local_commander_moodle34_2018032702.zip && \
     cd /tmp  && \
