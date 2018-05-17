@@ -33,7 +33,7 @@ RUN apt-get update && \
 RUN pip install supervisor-stdout
 
 RUN	cd /tmp && \
-    wget -O moodle.zip https://download.moodle.org/download.php/direct/stable$MOODLE_VERSION/moodle-latest-$MOODLE_VERSION.zip && \
+    wget -O moodle.zip https://download.moodle.org/download.php/direct/stable$MOODLE_VERSION/moodle-3.5.zip && \
     unzip moodle.zip && \
     mv /tmp/moodle/* /var/www/html/ && \
     rm /var/www/html/index.html
@@ -98,13 +98,6 @@ RUN export NVM_DIR="$HOME/.nvm" && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
     yarn install --prefer-offline
 
-# Install some default plugins that should be available.
-# ONLY 34 needed
-RUN wget -O /tmp/tool_dataprivacy_moodle.zip https://moodle.org/plugins/download.php/16426/tool_dataprivacy_moodle33_2017051500.zip && \
-    cd /tmp  && \
-    unzip tool_dataprivacy_moodle.zip && \
-    mkdir /var/www/html/admin/tool/dataprivacy && \
-    mv /tmp/dataprivacy/* /var/www/html/admin/tool/dataprivacy
 
 # Make navigation better.
 RUN wget -O /tmp/local_commander.zip https://moodle.org/plugins/download.php/16351/local_commander_moodle34_2018032702.zip && \

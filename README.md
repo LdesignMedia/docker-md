@@ -12,7 +12,7 @@ Docker testing suite for Moodle.
 
 For stable Moodle 3.5
 ```bash
-git submodule add -b moodle34 git@github.com:MoodleFreak/docker-md.git dockermd_moodle35_$(basename `pwd`)
+git submodule add -b moodle35 git@github.com:MoodleFreak/docker-md.git dockermd_moodle35_$(basename `pwd`)
 ```
 
 For stable Moodle 3.4
@@ -22,7 +22,7 @@ git submodule add -b moodle34 git@github.com:MoodleFreak/docker-md.git dockermd_
 
 For stable Moodle 3.1
 ```bash
-git submodule add -b moodle34 git@github.com:MoodleFreak/docker-md.git dockermd_moodle31_$(basename `pwd`)
+git submodule add -b moodle31 git@github.com:MoodleFreak/docker-md.git dockermd_moodle31_$(basename `pwd`)
 ```
 
 ## Map to your folders
