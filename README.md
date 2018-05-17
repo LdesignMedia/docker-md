@@ -10,8 +10,19 @@ Docker testing suite for Moodle.
 
 ## Add to your plugin folder
 
+For stable Moodle 3.5
 ```bash
-git submodule add -b moodle34 git@github.com:MoodleFreak/docker-md.git dockermd_$(basename `pwd`)
+git submodule add -b moodle34 git@github.com:MoodleFreak/docker-md.git dockermd_moodle35_$(basename `pwd`)
+```
+
+For stable Moodle 3.4
+```bash
+git submodule add -b moodle34 git@github.com:MoodleFreak/docker-md.git dockermd_moodle34_$(basename `pwd`)
+```
+
+For stable Moodle 3.1
+```bash
+git submodule add -b moodle34 git@github.com:MoodleFreak/docker-md.git dockermd_moodle31_$(basename `pwd`)
 ```
 
 ## Map to your folders
@@ -55,8 +66,6 @@ git pull
 - Debug messages appears in your console.
 
 ## TODO 
-
-- Make more branches, currently only `moodle34`
 - Install more recent version of PHP 7.1 or 7.2
 - Catch outgoing e-mail, currently there is no outgoing mail possible.
 
