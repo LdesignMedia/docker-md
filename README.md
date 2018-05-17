@@ -33,10 +33,19 @@ cp docker-compose.override.example.yml docker-compose.override.yml
 ```
 Edit `docker-compose.override.yml`
 
-## Add to .gitignore global or project
+## Update your .git project
 
-````git
-dockermd_*/
+If your plugin is a git project:
+
+````bash
+# Prevent adding the folder to your project.
+touch .gitignore && echo "*dockermd_*/" >> .gitignore
+
+# If the git submodule command added the directory. 
+git reset HEAD dockermd_moodle35_$(basename `pwd`)
+
+# Check the status.
+git status 
 ````
 
 ## Start compose
