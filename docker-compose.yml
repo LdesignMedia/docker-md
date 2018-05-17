@@ -17,7 +17,7 @@ services:
             restart_policy:
                 condition: any
     moodleapp:
-        image: moodlefreak/docker-md:moodle34
+        image: moodlefreak/docker-md:moodle31
         links:
             - dbapp:DB
         depends_on: 

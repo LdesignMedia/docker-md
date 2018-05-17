@@ -2,6 +2,6 @@ version: '3'
 
 services:
     moodleapp:
-        image: moodlefreak/docker-md:moodle34
+        image: moodlefreak/docker-md:moodle31
         volumes:
         - "./../:/var/www/html/enrol/plugin"
