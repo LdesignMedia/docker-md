@@ -7,7 +7,7 @@ MAINTAINER Luuk Verhoeven luuk@moodlefreak.com
 VOLUME ["/var/moodledata"]
 EXPOSE 80 443 3306
 
-ARG moodle_version=34
+ARG moodle_version=31
 ENV MOODLE_VERSION=$moodle_version
 ENV MOODLE_EMAIL luuk@moodlefreak.com
 
