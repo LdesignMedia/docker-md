@@ -4,7 +4,7 @@ services:
     dbapp:
         image: mysql:latest
         command: --default-authentication-plugin=mysql_native_password
-        restart: always
+        restart: on-failure
         ports:
             - 3306:3306
         volumes:
@@ -23,7 +23,7 @@ services:
             - dbapp:DB
         depends_on: 
             - dbapp
-        restart: always
+        restart: on-failure
         volumes:
             - moodleapp-data:/var/moodledata
         ports:
